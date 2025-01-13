@@ -1,1 +1,12 @@
 rootProject.name = 'blog-app'
+
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+
+include 'api:domain'
+include 'api:infrastructure:application'
+include 'api:infrastructure:db-adapter-api'
+include 'api:infrastructure:rest-adapter'

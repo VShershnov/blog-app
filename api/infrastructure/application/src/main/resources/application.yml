@@ -1,0 +1,47 @@
+info:
+  app:
+    description: Test task Blog application with base CRUD operations
+    name: blog-app
+
+spring:
+  application:
+    name: blog-app
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    generate-ddl: true
+    show-sql: true
+    open-in-view: false
+  datasource:
+    url: jdbc:h2:file:./data/${DATASOURCE_DB_NAME}
+    username: ${DATASOURCE_USERNAME}
+    password: ${DATASOURCE_PASSWORD}
+    driverClassName: org.h2.Driver
+#    hikari:
+#      minimum-idle: 0
+#      idle-timeout: 10000
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  flyway:
+    enabled: true
+#    table: "schema_version"
+#    ignoreMigrationPatterns: "*:missing,*:future"
+#    cleanDisabled: true
+
+#logging:
+#  config: 'classpath:com/pitchbook/logging/logback.xml'
+#  pattern:
+#    level: '%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]'
+
+server:
+  port: 9000
+
+blogapp:
+  api:
+    basePath: /blog-app-api
+  swagger-enabled: true

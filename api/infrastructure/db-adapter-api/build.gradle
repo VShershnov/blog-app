@@ -1,0 +1,16 @@
+dependencies {
+    implementation project(':api:domain')
+
+    implementation libs.db
+
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstructAP
+    annotationProcessor libs.lombokMapstructAP
+
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+
+    testImplementation libs.unitTest
+    testCompileOnly libs.lombok
+    testAnnotationProcessor libs.lombok
+}

@@ -1,39 +1,97 @@
-plugins {
-	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
-	id 'io.spring.dependency-management' version '1.1.7'
-}
-
-group = 'com.blog'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+buildscript {
+    repositories {
+        mavenCentral()
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+ext.springBootVersion = '3.4.1'
+ext.libVersions = [
+        springBoot      : "${springBootVersion}",
+        springCloud     : '2022.0.4',
+        flywaydbVersion : '9.15.1',
+        lombok          : '1.18.22',
+        testContainers  : '1.16.0',
+        mapstruct       : '1.4.2.Final',
+        lombok_mapstruct: '0.2.0'
+//		hibernateTypes     : '2.16.2'
+]
+
+ext.libs = [
+        logging          : [
+//                'org.slf4j:slf4j-simple',
+                            'net.logstash.logback:logstash-logback-encoder:6.3'],
+        lombok           : "org.projectlombok:lombok:${libVersions.lombok}",
+        mapstruct        : "org.mapstruct:mapstruct:${libVersions.mapstruct}",
+        mapstructAP      : "org.mapstruct:mapstruct-processor:${libVersions.mapstruct}",
+        lombokMapstructAP: "org.projectlombok:lombok-mapstruct-binding:${libVersions.lombok_mapstruct}",
+        db               : ["org.springframework.boot:spring-boot-starter-data-jpa",
+                            "org.springframework.boot:spring-boot-starter-validation",
+                            "org.flywaydb:flyway-core:${libVersions.flywaydbVersion}",
+//							 "com.vladmihalcea:hibernate-types-55:${libVersions.hibernateTypes}",
+                            "com.h2database:h2"],
+        unitTest         : ["org.junit.jupiter:junit-jupiter-api",
+                            "org.junit.jupiter:junit-jupiter-params",
+                            "org.junit.jupiter:junit-jupiter-engine",
+                            "org.assertj:assertj-core",
+                            "org.mockito:mockito-core",
+                            "org.mockito:mockito-junit-jupiter"],
+        guava            : 'com.google.guava:guava:28.2-jre',
+        vavr             : "io.vavr:vavr:0.10.4",
+        springWeb        : "org.springframework:spring-web",
+        springContext    : 'org.springframework:spring-context',
+        gson             : "com.google.code.gson:gson:2.9.1"
+//		integercompression: "me.lemire.integercompression:JavaFastPFOR:0.1.12"
+]
+
+allprojects {
+    group = 'com.blog.blog-app'
+    version = '0.0.1-SNAPSHOT'
+
+    apply plugin: 'project-report'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'project-report'
+
+    repositories {
+        mavenCentral()
+    }
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    configurations {
+        configureEach {
+//            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+//            exclude group: 'ch.qos.logback', module: 'logback-classic'
+//            exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
+        }
+    }
+
+    dependencies {
+        implementation platform("org.springframework.boot:spring-boot-dependencies:${libVersions.springBoot}")
+        implementation platform("org.springframework.cloud:spring-cloud-dependencies:${libVersions.springCloud}")
+    }
+
+    compileJava {
+        options.compilerArgs = [
+                '-Amapstruct.unmappedTargetPolicy=ERROR',
+                '-Amapstruct.defaultComponentModel=spring'
+        ]
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+
+    task unit(type: Test) {
+        useJUnitPlatform {
+            includeTags 'unit'
+        }
+    }
 }
