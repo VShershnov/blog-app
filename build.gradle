@@ -17,13 +17,10 @@ ext.libVersions = [
         testContainers  : '1.16.0',
         mapstruct       : '1.4.2.Final',
         lombok_mapstruct: '0.2.0'
-//		hibernateTypes     : '2.16.2'
 ]
 
 ext.libs = [
-        logging          : [
-//                'org.slf4j:slf4j-simple',
-                            'net.logstash.logback:logstash-logback-encoder:6.3'],
+        logging          : 'net.logstash.logback:logstash-logback-encoder:6.3',
         lombok           : "org.projectlombok:lombok:${libVersions.lombok}",
         mapstruct        : "org.mapstruct:mapstruct:${libVersions.mapstruct}",
         mapstructAP      : "org.mapstruct:mapstruct-processor:${libVersions.mapstruct}",
@@ -44,7 +41,6 @@ ext.libs = [
         springWeb        : "org.springframework:spring-web",
         springContext    : 'org.springframework:spring-context',
         gson             : "com.google.code.gson:gson:2.9.1"
-//		integercompression: "me.lemire.integercompression:JavaFastPFOR:0.1.12"
 ]
 
 allprojects {
