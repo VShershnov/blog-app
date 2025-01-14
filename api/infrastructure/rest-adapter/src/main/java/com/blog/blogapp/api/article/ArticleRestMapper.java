@@ -1,10 +1,7 @@
 package com.blog.blogapp.api.article;
 
 import com.blog.blogapp.article.Article;
-import com.blog.blogapp.dto.ArticleCreateDto;
-import com.blog.blogapp.dto.ArticleDto;
-import com.blog.blogapp.dto.ArticleIdDto;
-import com.blog.blogapp.dto.ArticlesByAccountDto;
+import com.blog.blogapp.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -12,8 +9,6 @@ import java.util.List;
 
 @Mapper
 public interface ArticleRestMapper {
-
-    Article toDomain(ArticleDto articleDto);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
@@ -29,4 +24,6 @@ public interface ArticleRestMapper {
     ArticleIdDto toRest(Long id);
 
     ArticlesByAccountDto toRest(Integer accountId, List<Article> articles);
+
+    ArticlesFilteredByDateDto toRest(Integer accountId, String createdAfter, List<Article> articles);
 }

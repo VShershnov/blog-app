@@ -2,10 +2,7 @@ package com.blog.blogapp.api.article;
 
 import com.blog.blogapp.article.Article;
 import com.blog.blogapp.article.ArticleService;
-import com.blog.blogapp.dto.ArticleCreateDto;
-import com.blog.blogapp.dto.ArticleDto;
-import com.blog.blogapp.dto.ArticleIdDto;
-import com.blog.blogapp.dto.ArticlesByAccountDto;
+import com.blog.blogapp.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +24,11 @@ public class ArticleController {
     @GetMapping("/articles")
     public ArticlesByAccountDto getArticlesByAccount(@RequestParam Integer accountId) {
         return articleMapper.toRest(accountId, articleService.getByAccountId(accountId));
+    }
+
+    @GetMapping("/articles/filter")
+    public ArticlesFilteredByDateDto getArticlesByAccount(@RequestParam String createdAfter, @RequestParam Integer accountId) {
+        return articleMapper.toRest(accountId, createdAfter, articleService.getByAccountIdAndFilteredByCreateDate(accountId, createdAfter));
     }
 
     @PatchMapping("/articles/{id}/update")

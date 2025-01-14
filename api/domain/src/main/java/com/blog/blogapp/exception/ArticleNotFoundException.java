@@ -9,7 +9,7 @@ public class ArticleNotFoundException extends DomainException {
         super(message);
     }
 
-    public ArticleNotFoundException(int articleId) {
+    public ArticleNotFoundException(long articleId) {
         super(String.format(ARTICLE_NOT_FOUND_MESSAGE, articleId));
     }
 

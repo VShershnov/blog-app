@@ -12,5 +12,5 @@ public interface ArticleProvider {
 
     List<Article> getByAccountId(int accountId);
 
-//    Article updateArticle(Article article, int accountId);
+    List<Article> getByAccountIdAndFilteredByCreateDate(Integer accountId, String createdAfter);
 }

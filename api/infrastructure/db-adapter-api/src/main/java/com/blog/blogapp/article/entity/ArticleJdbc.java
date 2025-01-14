@@ -30,7 +30,7 @@ public class ArticleJdbc {
     private String imageFilePath;
 
     @NotNull
-    private Long accountId;
+    private int accountId;
 
     @Column(name = "is_deleted", nullable = false)
     private boolean deleted;

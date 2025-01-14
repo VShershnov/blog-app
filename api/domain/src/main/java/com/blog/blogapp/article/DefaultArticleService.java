@@ -40,4 +40,9 @@ public class DefaultArticleService implements ArticleService {
         Article article = articleProvider.get(id);
         articleProvider.softDelete(article.getId());
     }
+
+    @Override
+    public List<Article> getByAccountIdAndFilteredByCreateDate(Integer accountId, String createdAfter) {
+        return articleProvider.getByAccountIdAndFilteredByCreateDate(accountId, createdAfter);
+    }
 }

@@ -1,7 +1,6 @@
 package com.blog.blogapp.article;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ArticleService {
 
@@ -14,4 +13,6 @@ public interface ArticleService {
     Article update(Article article, int accountId);
 
     void delete(Long id);
+
+    List<Article> getByAccountIdAndFilteredByCreateDate(Integer accountId, String createdAfter);
 }

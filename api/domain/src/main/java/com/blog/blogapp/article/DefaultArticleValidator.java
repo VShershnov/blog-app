@@ -38,10 +38,9 @@ public class DefaultArticleValidator implements ArticleValidator {
         return this;
     }
 
-    private DefaultArticleValidator contentLengthValidation(String content) {
+    private void contentLengthValidation(String content) {
         if (nonNull(content) && ARTICLE_CONTENT_LENGTH_LIMIT < content.length()) {
             throw new ArticleValidationException(LENGTH_CONTENT_ERR_MESSAGE, ARTICLE_CONTENT_IS_TOO_LONG);
         }
-        return this;
     }
 }

@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class JpaArticleProvider implements ArticleProvider {
     public Article get(long id) {
         return articleRepository.findById(id)
             .map(articleMapper::toDomain)
-            .orElseThrow(() -> new ArticleNotFoundException("Article: " + id + " not found"));
+            .orElseThrow(() -> new ArticleNotFoundException(id));
     }
 
     @Override
@@ -46,5 +47,18 @@ public class JpaArticleProvider implements ArticleProvider {
         return articleRepository.findByAccountId(accountId).stream()
             .map(articleMapper::toDomain)
             .toList();
+    }
+
+    @Override
+    public List<Article> getByAccountIdAndFilteredByCreateDate(Integer accountId, String createdAfter) {
+        LocalDateTime filterLocalDateTime = convert(createdAfter);
+        return articleRepository.findByAccountIdAndCreatedAtAfter(accountId, filterLocalDateTime).stream()
+            .map(articleMapper::toDomain)
+            .toList();
+    }
+
+    private LocalDateTime convert(String createdAfter) {
+        LocalDate date = LocalDate.parse(createdAfter);
+        return date.atStartOfDay();
     }
 }
