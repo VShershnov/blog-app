@@ -2,7 +2,8 @@
 
 ## About the project
 Application made using:\
- <i><b>Java 17,\
+ <i><b> Multi-module Hexagonal architecture, \
+Java 17,\
   Spring Boot v3.4.1,\
    Spring Web,\
     Spring Data JPA,\
