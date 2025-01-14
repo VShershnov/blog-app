@@ -65,14 +65,6 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 
-    configurations {
-        configureEach {
-//            exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-//            exclude group: 'ch.qos.logback', module: 'logback-classic'
-//            exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-        }
-    }
-
     dependencies {
         implementation platform("org.springframework.boot:spring-boot-dependencies:${libVersions.springBoot}")
         implementation platform("org.springframework.cloud:spring-cloud-dependencies:${libVersions.springCloud}")
@@ -81,7 +73,8 @@ subprojects {
     compileJava {
         options.compilerArgs = [
                 '-Amapstruct.unmappedTargetPolicy=ERROR',
-                '-Amapstruct.defaultComponentModel=spring'
+                '-Amapstruct.defaultComponentModel=spring',
+                '-parameters'
         ]
     }
 

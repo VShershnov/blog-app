@@ -7,19 +7,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     implementation libs.guava
-
-//    implementation("io.springfox:springfox-swagger2:${springfox_swagger_version}") {
-//        exclude module: 'swagger-annotations'
-//        exclude module: 'swagger-models'
-//        exclude group: 'com.google.guava'
-//    }
-//    implementation "io.swagger:swagger-annotations:${swagger_version}"
-//    implementation "io.swagger:swagger-models:${swagger_version}"
-//    implementation("io.springfox:springfox-swagger-ui:${springfox_swagger_version}") {
-//        exclude group: 'com.google.guava'
-//    }
-
-//    implementation libs.logging
     implementation libs.mapstruct
     annotationProcessor libs.mapstructAP
     annotationProcessor libs.lombokMapstructAP

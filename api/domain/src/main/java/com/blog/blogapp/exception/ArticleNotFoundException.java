@@ -9,8 +9,8 @@ public class ArticleNotFoundException extends DomainException {
         super(message);
     }
 
-    public ArticleNotFoundException(int columnId) {
-        super(String.format(ARTICLE_NOT_FOUND_MESSAGE, columnId));
+    public ArticleNotFoundException(int articleId) {
+        super(String.format(ARTICLE_NOT_FOUND_MESSAGE, articleId));
     }
 
     @Override

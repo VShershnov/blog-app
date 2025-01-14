@@ -1,12 +1,14 @@
 package com.blog.blogapp.api.article;
 
+import com.blog.blogapp.article.Article;
 import com.blog.blogapp.article.ArticleService;
+import com.blog.blogapp.dto.ArticleCreateDto;
 import com.blog.blogapp.dto.ArticleDto;
+import com.blog.blogapp.dto.ArticleIdDto;
+import com.blog.blogapp.dto.ArticlesByAccountDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,98 +16,34 @@ import org.springframework.web.bind.annotation.RestController;
 public class ArticleController {
 
     private final ArticleService articleService;
-    private final ArticleRestMapper articleRestMapper;
+    private final ArticleRestMapper articleMapper;
 
     @GetMapping("/articles/{id}")
     public ArticleDto getArticle(@PathVariable Long id) {
-        return articleRestMapper
+        return articleMapper
             .toRest(articleService.getById(id));
     }
 
-//    @PostMapping("/articles/{id}")
-////    @PreAuthorize("isAuthenticated()")
-//    public Article updateArticle(@PathVariable Long id, Article article, @RequestParam("file") MultipartFile file) {
-//
-//        Optional<Article> optionalArticle = defaultArticleService.getById(id);
-//        if (optionalArticle.isPresent()) {
-//            Article existingArticle = optionalArticle.get();
-//
-//            existingArticle.setTitle(article.getTitle());
-//            existingArticle.setContent(article.getContent());
-//
-//            try {
-////                fileService.save(file);
-//                existingArticle.setImageFilePath(file.getOriginalFilename());
-//            } catch (Exception e) {
-//                log.error("Error processing file: {}", file.getOriginalFilename());
-//            }
-//
-//            defaultArticleService.save(existingArticle);
-//        }
-//
-//        return optionalArticle.get();
-//    }
+    @GetMapping("/articles")
+    public ArticlesByAccountDto getArticlesByAccount(@RequestParam Integer accountId) {
+        return articleMapper.toRest(accountId, articleService.getByAccountId(accountId));
+    }
 
-//    @GetMapping("/posts/new")
-////    @PreAuthorize("isAuthenticated()")
-//    public String createNewArticle(Model model) {
-//
-//        Post post = new Post();
-//        model.addAttribute("post", post);
-//        return "post_new";
-//    }
+    @PatchMapping("/articles/{id}/update")
+    public ArticleDto updateArticle(@PathVariable Long id, @RequestBody ArticleCreateDto articleDto, @RequestParam Integer accountId) {
+        Article updated = articleService.update(articleMapper.toDomain(id, articleDto), accountId);
+        return articleMapper.toRest(updated);
+    }
 
-//    @PostMapping("/articles/new")
-////    @PreAuthorize("isAuthenticated()")
-//    public Long createNewArticle(@ModelAttribute Article article, @RequestParam("file") MultipartFile file, Principal principal) {
-////        String authUsername = "anonymousUser";
-////        if (principal != null) {
-////            authUsername = principal.getName();
-////        }
-//
-////        Account account = accountService.findOneByEmail(authUsername).orElseThrow(() -> new IllegalArgumentException("Account not found"));
-//
-//        try {
-////            fileService.save(file);
-////            post.setImageFilePath(file.getOriginalFilename());
-//        } catch (Exception e) {
-//            log.error("Error processing file: {}", file.getOriginalFilename());
-//        }
-//
-////        article.setAccount(account);
-//        Article response = defaultArticleService.save(article);
-//        return response.getId();
-//    }
+    @PostMapping("/articles/new")
+    public ArticleIdDto createNewArticle(@RequestBody ArticleCreateDto articleDto, @RequestParam Integer accountId) {
+        Article article = articleMapper.toDomain(articleDto);
+        long articleId = articleService.create(article, accountId);
+        return articleMapper.toRest(articleId);
+    }
 
-//    @GetMapping("/articles/{id}/edit")
-////    @PreAuthorize("isAuthenticated()")
-//    public String getArticleForEdit(@PathVariable Long id) {
-//
-//        // find post by id
-//        Optional<Article> optionalPost = postService.getById(id);
-//        // if post exist put it in model
-//        if (optionalPost.isPresent()) {
-//            Article article = optionalPost.get();
-//            model.addAttribute("post", post);
-//            return "post_edit";
-//        } else {
-//            return "404";
-//        }
-//    }
-
-//    @GetMapping("/articles/{id}/delete")
-////    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public void deleteArticle(@PathVariable Long id) {
-//
-//        // find post by id
-//        Optional<Article> optionalArticle = defaultArticleService.getById(id);
-//        if (optionalArticle.isPresent()) {
-//            Article article = optionalArticle.get();
-//
-//            defaultArticleService.delete(article);
-////            return "redirect:/";
-//        } else {
-////            return "404";
-//        }
-//    }
+    @DeleteMapping("/articles/{id}/delete")
+    public void deleteArticle(@PathVariable Long id) {
+        articleService.delete(id);
+    }
 }

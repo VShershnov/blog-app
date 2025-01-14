@@ -7,9 +7,11 @@ public interface ArticleService {
 
     Article getById(Long id);
 
-//    List<Article> getAll();
-//
-//    Article save(Article article);
-//
-//    void delete(Article article);
+    List<Article> getByAccountId(int accountId);
+
+    long create(Article article, int accountId);
+
+    Article update(Article article, int accountId);
+
+    void delete(Long id);
 }

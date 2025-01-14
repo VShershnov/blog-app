@@ -1,15 +1,16 @@
 package com.blog.blogapp.article;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ArticleProvider {
 
-    long create(Article article);
+    Article save(Article article, int accountId);
 
     Article get(long id);
 
-//    List<Article> getAll();
-
     void softDelete(long id);
+
+    List<Article> getByAccountId(int accountId);
+
+//    Article updateArticle(Article article, int accountId);
 }

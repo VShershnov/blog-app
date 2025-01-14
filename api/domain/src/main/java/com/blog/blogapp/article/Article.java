@@ -16,5 +16,4 @@ public class Article {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String imageFilePath;
-    private Long accountId;
 }

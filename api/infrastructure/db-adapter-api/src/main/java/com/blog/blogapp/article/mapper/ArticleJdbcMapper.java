@@ -9,11 +9,7 @@ import org.mapstruct.Mapping;
 public interface ArticleJdbcMapper {
 
     @Mapping(target = "deleted", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
-    ArticleJdbc toJdbc(Article article);
+    ArticleJdbc toJdbc(Article article, int accountId);
 
     Article toDomain(ArticleJdbc articleJdbc);
-
-//    List<Article> toDomain(List<ArticleJdbc> articleJdbcList);
 }
